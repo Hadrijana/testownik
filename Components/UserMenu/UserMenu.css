@@ -1,0 +1,10 @@
+.UserMenu .before-login {
+    text-align: right;
+}
+.UserMenu .after-login {
+    text-align: center;
+}
+.UserMenu {
+    text-align: right;
+    color: #ffffff;
+}
