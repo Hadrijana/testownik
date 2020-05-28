@@ -440,7 +440,4 @@ class AnswersList extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <NewTest />,
-  document.getElementById('root')
-);
+import default NewTest;
