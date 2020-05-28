@@ -1,6 +1,4 @@
 'use strict';
-import React from 'react';
-
 
 class NewTest extends React.Component {
   constructor(props) {
@@ -52,7 +50,7 @@ class QuestionList extends React.Component {
 class Question extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { id: 0, questionType: 1 ,questionText: '', answers: [] };
+    this.state = { id: 0, questionType: 1, questionText: '', answers: [] };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -82,7 +80,7 @@ class Question extends React.Component {
                   onChange={this.handleChangeType}>
                   <option value='1'>Zamknięte</option>
                   <option value='2'>Półotwarte</option>
-                  <option value='3'>Połączenie</option>
+                  <option value='3' >Połączenie</option>
                 </select>
               </div>
             </div>
@@ -140,7 +138,8 @@ class Question extends React.Component {
   }
 
   handleChangeType(e) {
-    this.setState({ questionType: e.target.value });
+    this.answers.current.clearState();
+    this.setState({ questionType: e.target.value, answers: [] });
   }
 
   handleSubmit(e) {
@@ -149,7 +148,9 @@ class Question extends React.Component {
       return;
     }
 
-    this.answers.current.clearState();
+    if (this.answers.current !== null) {
+      this.answers.current.clearState();
+    }
 
     const newItem = {
       id: this.state.id,
@@ -190,7 +191,8 @@ class AnswersType extends React.Component {
             chk={chk}
             handleSubmit={handleSubmit}
             handleText={handleText}
-            handleCheckbox={handleCheckbox} />
+            handleCheckbox={handleCheckbox}
+          />
         }
         {type == 2 &&
           <AnswersOpen
@@ -198,10 +200,16 @@ class AnswersType extends React.Component {
             chk={chk}
             handleSubmit={handleSubmit}
             handleText={handleText}
-            handleCheckbox={handleCheckbox} />
+            handleCheckbox={handleCheckbox}
+          />
         }
         {type == 3 &&
-          <AnswersMatch />
+          <AnswersMatch
+            text={text}
+            handleSubmit={handleSubmit}
+            handleText={handleText}
+            handleCheckbox={handleCheckbox}
+           />
         }
       </div>
     );
@@ -345,7 +353,78 @@ class AnswersOpen extends AnswersClosed {
   }
 }
 
-class AnswersMatch extends React.Component {}
+class AnswersMatch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { textA: '', textB: '' };
+    this.handleTextA = this.handleTextA.bind(this);
+    this.handleTextB = this.handleTextB.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleTextA(e) {
+    var textA =  e.target.value;
+    var textB = this.state.textB;
+    this.setState({ textA: textA, textB: textB });
+    var text = textA + ";" + textB;
+    e.target.value = text;
+    this.props.handleText(e);
+  }
+
+  handleTextB(e) {
+    var textA = this.state.textA;
+    var textB =  e.target.value;
+    this.setState({ textA: textA, textB: textB });
+    var text = textA + ";" + textB;
+    e.target.value = text;
+    this.props.handleCheckbox(true);
+    this.props.handleText(e);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+    if (this.state.textA.length === 0 || this.state.textB.length === 0) {
+      return;
+    }
+
+    this.pair1.focus();
+    this.setState({ textA: '', textB: '' });
+    this.props.handleSubmit(e);
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className='row'>
+            <div className="col-8">
+              <div className="input-group mb-3">
+                <input
+                  id="pair1"
+                  onChange={this.handleTextA}
+                  value={this.state.textA}
+                  className="form-control"
+                  ref={(input) => { this.pair1 = input; }}
+                />
+                <input
+                  id="pair2"
+                  onChange={this.handleTextB}
+                  value={this.state.textB}
+                  className="form-control"
+                />
+                <div className="input-group-append">
+                  <button className="btn btn-secondary">
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
 
 class AnswersList extends React.Component {
   render() {
@@ -361,4 +440,7 @@ class AnswersList extends React.Component {
   }
 }
 
-export default NewTest;
+ReactDOM.render(
+  <NewTest />,
+  document.getElementById('root')
+);
