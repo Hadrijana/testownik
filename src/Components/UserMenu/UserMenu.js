@@ -1,5 +1,7 @@
 import React from 'react';
 import './UserMenu.css';
+import {Link} from 'react-router-dom';
+
 
 class UserMenu extends React.Component {
   constructor(props) {
@@ -7,7 +9,8 @@ class UserMenu extends React.Component {
     this.state = {
       login: 'pwr',
       password: 'swordfish',
-      authorized: false
+      authorized: false,
+      redirect: false
     };
     this.authorize = this.authorize.bind(this);
     this.logout = this.logout.bind(this);
@@ -27,8 +30,10 @@ class UserMenu extends React.Component {
     });
   }
 
-  render() {
 
+
+  render() {
+    
     if(this.state.authorized)
     { }
 
@@ -49,6 +54,9 @@ class UserMenu extends React.Component {
           <h3>Zalogowano jako: {this.state.login}</h3>
           <button id="logOut_button" onClick={this.logout}>Wyloguj</button>
           <button >Moje Testy</button>
+          <Link to="/newTest">
+          <button >Nowy test</button>
+          </Link> 
        </ul>
       </div>
 

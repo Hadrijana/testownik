@@ -11,22 +11,30 @@ import {
   Redirect
 } from "react-router-dom";
   
-  let testCard = {
+  let testCard1 = {
     imageSrc: 'https://s3.amazonaws.com/codecademy-content/programs/react/ravenous/pizza.jpg',
     name: 'Kuchnia włoska',
-    code: '12345',
+    code: '1',
+    description: 'Tu bedzie opis testu, jakkolwiek ma on wyglądać. Coś się tu jeszcze ładnego napisze i będzie fajnie',
+    rating: 4.5,
+    reviewCount: 90
+  }
+  let testCard2 = {
+    imageSrc: 'https://s3.amazonaws.com/codecademy-content/programs/react/ravenous/pizza.jpg',
+    name: 'Kuchnia włoska',
+    code: '0',
     description: 'Tu bedzie opis testu, jakkolwiek ma on wyglądać. Coś się tu jeszcze ładnego napisze i będzie fajnie',
     rating: 4.5,
     reviewCount: 90
   }
   
   let testCards =[
-    testCard,
-    testCard,
-    testCard,
-    testCard,
-    testCard,
-    testCard,
+    testCard1,
+    testCard2,
+    testCard1,
+    testCard2,
+    testCard1,
+    testCard2,
   ]
   
 
@@ -41,9 +49,9 @@ class MainPage extends  React.Component {
    
 
     startWithCode(code){
-      console.log(code);
+      //console.log(code);
       this.setState({testCode: code, redirect: true})
-      
+      this.props.testFromCode(code);
     }
     
       searchWithTerm(phrase, sortBy){
@@ -53,13 +61,13 @@ class MainPage extends  React.Component {
       render(){
 
         if (this.state.redirect) {
-          return <Redirect push to={`./tests/${this.state.testCode}`} />;
+          return <Redirect push to={`./test`} />;
         }
         return (
           <div className="App">
             <h1>testownik</h1>
             <SearchBar startWithCode={this.startWithCode} searchWithTerm={this.searchWithTerm} />
-            <BusinessList testCards ={testCards} />
+            <BusinessList testCards ={testCards} testFromCode = {this.props.testFromCode}/>
           </div>
           
         );

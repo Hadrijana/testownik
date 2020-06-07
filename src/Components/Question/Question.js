@@ -65,10 +65,10 @@ class Question extends React.Component{
 
 
         if(isCorr){
-            console.log(checked)
+            alert("Poprawna odpowiedź");
         }
         else{
-            console.log('buuu')
+            alert("Zła odpowiedź");
         }
     };
     

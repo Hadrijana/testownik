@@ -7,7 +7,7 @@ class TestCard extends React.Component{
     render(){
         return (
             <div className="TestCard">
-                <Link  to={`/tests/${this.props.testCard.code}`}  style={{ textDecoration: 'none', color: 'inherit' }} >
+                <Link  to={`/test`}  style={{ textDecoration: 'none', color: 'inherit' }} onClick = {() => this.props.testFromCode(this.props.testCard.code)} >
                     <div className="image-container">
                         <img src={this.props.testCard.imageSrc} alt=''/>
                     </div>

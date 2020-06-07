@@ -9,7 +9,7 @@ class TestsList extends React.Component{
             <div className="TestsList">
             {
                this.props.testCards.map( testCard => {
-                   return <TestCard testCard={testCard} />
+                   return <TestCard testCard={testCard} testFromCode = {this.props.testFromCode}/>
                })
             }   
             </div>
