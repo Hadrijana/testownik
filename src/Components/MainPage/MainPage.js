@@ -7,10 +7,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link, 
+  Link,
   Redirect
 } from "react-router-dom";
-  
+
   let testCard1 = {
     imageSrc: 'https://s3.amazonaws.com/codecademy-content/programs/react/ravenous/pizza.jpg',
     name: 'Kuchnia włoska',
@@ -27,7 +27,7 @@ import {
     rating: 4.5,
     reviewCount: 90
   }
-  
+
   let testCards =[
     testCard1,
     testCard2,
@@ -36,7 +36,7 @@ import {
     testCard1,
     testCard2,
   ]
-  
+
 
 class MainPage extends  React.Component {
 
@@ -46,18 +46,18 @@ class MainPage extends  React.Component {
     this.startWithCode= this.startWithCode.bind(this)
   };
 
-   
+
 
     startWithCode(code){
       //console.log(code);
       this.setState({testCode: code, redirect: true})
       this.props.testFromCode(code);
     }
-    
+
       searchWithTerm(phrase, sortBy){
         console.log(`Searching witch phrase ${phrase}, ${sortBy}`);
       }
-    
+
       render(){
 
         if (this.state.redirect) {
@@ -65,11 +65,11 @@ class MainPage extends  React.Component {
         }
         return (
           <div className="App">
-            <h1>testownik</h1>
+            <h1>Testownik</h1>
             <SearchBar startWithCode={this.startWithCode} searchWithTerm={this.searchWithTerm} />
             <BusinessList testCards ={testCards} testFromCode = {this.props.testFromCode}/>
           </div>
-          
+
         );
       }
 

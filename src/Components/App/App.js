@@ -3,13 +3,13 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link, 
+  Link,
   Redirect
 } from "react-router-dom";
 import MainPage from '../MainPage/MainPage.js';
 import NotFoundPage from '../Pages/404.js'
 import Test from '../Test/Test'
-import NewTest from '../NewTest/script'
+import NewTest from '../NewTest/NewTest'
 
 let question1 ={
   type: "check",
@@ -83,11 +83,11 @@ class App extends React.Component {
     this.testFromCode= this.testFromCode.bind(this)
   };
 
-  
+
   testFromCode(code){
     console.log(code);
       test = tests[code]
-    
+
   }
   getTest(){
     return test;
@@ -110,7 +110,7 @@ class App extends React.Component {
           <NotFoundPage />
         </Route>
         <Redirect to='/404'  />
-        
+
       </Switch>
     </Router>
     )
