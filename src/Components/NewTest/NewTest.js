@@ -1,8 +1,6 @@
-'use strict';
+"use strict";
 
-import React, {
-  Component
-} from 'react';
+import React, { Component } from "react";
 
 class NewTestService {
   constructor() {
@@ -11,20 +9,20 @@ class NewTestService {
 
   async createNewTest(newTest) {
     return fetch(this.NEW_TEST_URL, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(newTest)
-      })
-      .then(response => {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTest),
+    })
+      .then((response) => {
         if (!response.ok) {
           this.handleResponseError(response);
         }
         return response.json();
       })
-      .catch(error => {
+      .catch((error) => {
         this.handleError(error);
       });
   }
@@ -43,15 +41,15 @@ class NewTest extends React.Component {
     super(props);
     this.newTestService = new NewTestService();
     this.state = {
-      questions: []
+      questions: [],
     };
     this.handleNewQuestion = this.handleNewQuestion.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleNewQuestion(newQuestion) {
-    this.setState(state => ({
-      questions: state.questions.concat(newQuestion)
+    this.setState((state) => ({
+      questions: state.questions.concat(newQuestion),
     }));
   }
 
@@ -61,32 +59,20 @@ class NewTest extends React.Component {
   }
 
   render() {
-    return ( <
-      div >
-      <
-      QuestionList list = {
-        this.state.questions
-      }
-      /> <
-      Question addNewQuestion = {
-        this.handleNewQuestion
-      }
-      /> <
-      div className = 'row' >
-      <
-      div className = 'col-2 offset-5 mb-5' >
-      <
-      form onSubmit = {
-        this.handleSubmit
-      } >
-      <
-      button className = "btn btn-success btn-lg btn-block" >
-      Zapisz nowy test <
-      /button> <
-      /form> <
-      /div> <
-      /div> <
-      /div>
+    return (
+      <div>
+        <QuestionList list={this.state.questions} />
+        <Question addNewQuestion={this.handleNewQuestion} />
+        <div className="row">
+          <div className="col-2 offset-5 mb-5">
+            <form onSubmit={this.handleSubmit}>
+              <button className="btn btn-success btn-lg btn-block">
+                Zapisz nowy test
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     );
   }
 }
@@ -97,36 +83,21 @@ class QuestionList extends React.Component {
   }
 
   render() {
-    return ( <
-      div > {
-        this.props.list.map(item => ( <
-          div key = {
-            item.id
-          } >
-          Pytanie {
-            item.id + 1
-          } < br / >
-          Typ: {
-            item.questionType
-          } < br / >
-          Waga: {
-            item.weight
-          } < br / >
-          Tresc: {
-            item.questionText
-          } < br / >
-          <
-          AnswersList items = {
-            item.answers
-          }
-          /> <
-          /div>
-        ))
-      } <
-      /div>
+    return (
+      <div>
+
+        {this.props.list.map((item) => (
+          <div key={item.id}>
+            Pytanie {item.id + 1} <br />
+            Typ: {item.questionType} <br />
+            Waga: {item.weight} <br />
+            Tresc: {item.questionText} <br />
+            <AnswersList items={item.answers} />
+          </div>
+        ))}
+      </div>
     );
   }
-
 }
 
 class Question extends React.Component {
@@ -136,8 +107,8 @@ class Question extends React.Component {
       id: 0,
       questionType: 1,
       weight: 1,
-      questionText: '',
-      answers: []
+      questionText: "",
+      answers: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -150,138 +121,94 @@ class Question extends React.Component {
   }
 
   render() {
-    return ( <
-      div >
-      <
-      div className = 'row' >
-      <
-      div className = 'col-10 offset-1' >
-      <
-      div className = 'row' >
-      <
-      div className = 'col-2' >
-      <
-      h2 className = 'my-1' >
-      Pytanie {
-        this.state.id + 1
-      } <
-      /h2> <
-      /div> <
-      /div> <
-      div className = 'row' >
-      <
-      div className = 'col-2' >
-      <
-      select className = 'form-control mt-3'
-      value = {
-        this.state.questionType
-      }
-      onChange = {
-        this.handleChangeType
-      } >
-      <
-      option value = '1' > Zamknięte < /option> <
-      option value = '2' > Półotwarte < /option> <
-      option value = '3' > Połączenie < /option> <
-      /select> <
-      /div> <
-      /div> <
-      div className = 'row' >
-      <
-      div className = 'col-2' >
-      <
-      select className = 'form-control mt-3'
-      value = {
-        this.state.weight
-      }
-      onChange = {
-        this.handleChangeWeight
-      } >
-      <
-      option value = '1' > Łatwe < /option> <
-      option value = '2' > Średnie < /option> <
-      option value = '3' > Trudne < /option> <
-      /select> <
-      /div> <
-      /div> <
-      div className = 'row' >
-      <
-      div className = 'col' >
-      <
-      h5 className = 'mt-3' > Treść pytania: < /h5> <
-      input className = "form-control"
-      value = {
-        this.state.questionText
-      }
-      onChange = {
-        this.handleChange
-      }
-      /> <
-      /div> <
-      /div> <
-      div className = 'row' >
-      <
-      div className = 'col-6' >
-      <
-      h5 className = 'mt-3' > Odpowiedzi: < /h5> <
-      AnswersList items = {
-        this.state.answers
-      }
-      /> {
-        !(this.state.questionType == 2 && this.state.answers.length == 1) &&
-        <
-        Answers
-        ref = {
-          this.answers
-        }
-        addNewItem = {
-          this.handleNewItem
-        }
-        type = {
-          this.state.questionType
-        }
-        questionId = {
-          this.state.id
-        }
-        />
-      } <
-      /div> <
-      /div> <
-      /div> <
-      /div> <
-      div className = 'row' >
-      <
-      div className = 'col-10 offset-1' >
-      <
-      form onSubmit = {
-        this.handleSubmit
-      } >
-      <
-      button className = "btn btn-primary btn-lg" >
-      Dodaj nowe pytanie <
-      /button> <
-      /form> <
-      /div> <
-      /div> <
-      div className = 'row' >
-      <
-      div className = 'col my-5' >
-      <
-      /div> <
-      /div> <
-      /div>
+    return (
+      <div>
+        <div className="row">
+          <div className="col-10 offset-1">
+            <div className="row">
+              <div className="col-2">
+                <h2 className="my-1">Pytanie {this.state.id + 1} </h2>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-2">
+                <select
+                  className="form-control mt-3"
+                  value={this.state.questionType}
+                  onChange={this.handleChangeType}
+                >
+                  <option value="1"> Zamknięte </option>
+                  <option value="2"> Półotwarte </option>
+                  <option value="3"> Połączenie </option>
+                </select>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-2">
+                <select
+                  className="form-control mt-3"
+                  value={this.state.weight}
+                  onChange={this.handleChangeWeight}
+                >
+                  <option value="1"> Łatwe </option>
+                  <option value="2"> Średnie </option>
+                  <option value="3"> Trudne </option>
+                </select>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <h5 className="mt-3"> Treść pytania: </h5>
+                <input
+                  className="form-control"
+                  value={this.state.questionText}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <h5 className="mt-3"> Odpowiedzi: </h5>
+                <AnswersList items={this.state.answers} />
+                {!(
+                  this.state.questionType == 2 && this.state.answers.length == 1
+                ) && (
+                  <Answers
+                    ref={this.answers}
+                    addNewItem={this.handleNewItem}
+                    type={this.state.questionType}
+                    questionId={this.state.id}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-10 offset-1">
+            <form onSubmit={this.handleSubmit}>
+              <button className="btn btn-primary btn-lg">
+                Dodaj nowe pytanie
+              </button>
+            </form>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col my-5"></div>
+        </div>
+      </div>
     );
   }
 
   handleChange(e) {
     this.setState({
-      questionText: e.target.value
+      questionText: e.target.value,
     });
   }
 
   handleNewItem(item) {
-    this.setState(state => ({
-      answers: state.answers.concat(item)
+    this.setState((state) => ({
+      answers: state.answers.concat(item),
     }));
   }
 
@@ -289,19 +216,22 @@ class Question extends React.Component {
     this.answers.current.clearState();
     this.setState({
       questionType: e.target.value,
-      answers: []
+      answers: [],
     });
   }
 
   handleChangeWeight(e) {
     this.setState({
-      weight: e.target.value
+      weight: e.target.value,
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.questionText.length === 0 || this.state.answers.length === 0) {
+    if (
+      this.state.questionText.length === 0 ||
+      this.state.answers.length === 0
+    ) {
       return;
     }
 
@@ -314,7 +244,7 @@ class Question extends React.Component {
       questionType: this.state.questionType,
       weight: this.state.weight,
       questionText: this.state.questionText,
-      answers: this.state.answers
+      answers: this.state.answers,
     };
 
     this.props.addNewQuestion(newItem);
@@ -322,12 +252,11 @@ class Question extends React.Component {
       id: this.state.id + 1,
       questionType: 1,
       weight: 1,
-      questionText: '',
-      answers: []
+      questionText: "",
+      answers: [],
     });
   }
 }
-
 
 class AnswersType extends React.Component {
   constructor(props) {
@@ -342,66 +271,35 @@ class AnswersType extends React.Component {
     var handleText = this.props.handleText;
     var handleCheckbox = this.props.handleCheckbox;
 
-    return ( <
-      div > {
-        type == 1 &&
-        <
-        AnswersClosed
-        text = {
-          text
-        }
-        chk = {
-          chk
-        }
-        handleSubmit = {
-          handleSubmit
-        }
-        handleText = {
-          handleText
-        }
-        handleCheckbox = {
-          handleCheckbox
-        }
-        />
-      } {
-        type == 2 &&
-          <
-          AnswersOpen
-        text = {
-          text
-        }
-        chk = {
-          chk
-        }
-        handleSubmit = {
-          handleSubmit
-        }
-        handleText = {
-          handleText
-        }
-        handleCheckbox = {
-          handleCheckbox
-        }
-        />
-      } {
-        type == 3 &&
-          <
-          AnswersMatch
-        text = {
-          text
-        }
-        handleSubmit = {
-          handleSubmit
-        }
-        handleText = {
-          handleText
-        }
-        handleCheckbox = {
-          handleCheckbox
-        }
-        />
-      } <
-      /div>
+    return (
+      <div>
+        {type == 1 && (
+          <AnswersClosed
+            text={text}
+            chk={chk}
+            handleSubmit={handleSubmit}
+            handleText={handleText}
+            handleCheckbox={handleCheckbox}
+          />
+        )}
+        {type == 2 && (
+          <AnswersOpen
+            text={text}
+            chk={chk}
+            handleSubmit={handleSubmit}
+            handleText={handleText}
+            handleCheckbox={handleCheckbox}
+          />
+        )}
+        {type == 3 && (
+          <AnswersMatch
+            text={text}
+            handleSubmit={handleSubmit}
+            handleText={handleText}
+            handleCheckbox={handleCheckbox}
+          />
+        )}
+      </div>
     );
   }
 }
@@ -410,8 +308,8 @@ class Answers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
-      valid: true
+      text: "",
+      valid: true,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleText = this.handleText.bind(this);
@@ -420,48 +318,36 @@ class Answers extends React.Component {
   }
 
   render() {
-    return ( <
-      div >
-      <
-      AnswersType type = {
-        this.props.type
-      }
-      text = {
-        this.state.text
-      }
-      chk = {
-        this.state.valid
-      }
-      handleSubmit = {
-        this.handleSubmit
-      }
-      handleText = {
-        this.handleText
-      }
-      handleCheckbox = {
-        this.handleCheckbox
-      }
-      /> <
-      /div>
+    return (
+      <div>
+        <AnswersType
+          type={this.props.type}
+          text={this.state.text}
+          chk={this.state.valid}
+          handleSubmit={this.handleSubmit}
+          handleText={this.handleText}
+          handleCheckbox={this.handleCheckbox}
+        />
+      </div>
     );
   }
 
   handleText(e) {
     this.setState({
-      text: e.target.value
+      text: e.target.value,
     });
   }
 
   handleCheckbox(val) {
     this.setState({
-      valid: val
+      valid: val,
     });
   }
 
   clearState() {
     this.setState({
-      text: '',
-      valid: true
+      text: "",
+      valid: true,
     });
   }
 
@@ -474,13 +360,13 @@ class Answers extends React.Component {
     const newItem = {
       text: this.state.text,
       valid: this.state.valid,
-      id: Date.now()
+      id: Date.now(),
     };
 
     this.props.addNewItem(newItem);
     this.setState({
-      text: '',
-      valid: false
+      text: "",
+      valid: false,
     });
   }
 }
@@ -493,24 +379,19 @@ class AnswersClosed extends React.Component {
   }
 
   innerRender() {
-    return ( <
-      div className = "form-check" >
-      <
-      input className = "form-check-input"
-      type = "checkbox"
-      onChange = {
-        this.handleCheckboxLocal
-      }
-      checked = {
-        this.props.chk
-      }
-      id = "defaultCheck1" / >
-      <
-      label className = "form-check-label"
-      htmlFor = "defaultCheck1" >
-      Poprawna odpowiedź <
-      /label> <
-      /div>
+    return (
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          onChange={this.handleCheckboxLocal}
+          checked={this.props.chk}
+          id="defaultCheck1"
+        />
+        <label className="form-check-label" htmlFor="defaultCheck1">
+          Poprawna odpowiedź
+        </label>
+      </div>
     );
   }
 
@@ -519,45 +400,27 @@ class AnswersClosed extends React.Component {
   }
 
   render() {
-    return ( <
-      div >
-      <
-      form onSubmit = {
-        this.props.handleSubmit
-      } >
-      <
-      div className = 'row' >
-      <
-      div className = "col-8" >
-      <
-      div className = "input-group mb-3" >
-      <
-      input id = "new-todo"
-      onChange = {
-        this.props.handleText
-      }
-      value = {
-        this.props.text
-      }
-      className = "form-control" /
-      >
-      <
-      div className = "input-group-append" >
-      <
-      button className = "btn btn-secondary" >
-      +
-      <
-      /button> <
-      /div> <
-      /div> <
-      /div> <
-      div className = 'col-4' > {
-        this.innerRender()
-      } <
-      /div> <
-      /div> <
-      /form> <
-      /div>
+    return (
+      <div>
+        <form onSubmit={this.props.handleSubmit}>
+          <div className="row">
+            <div className="col-8">
+              <div className="input-group mb-3">
+                <input
+                  id="new-todo"
+                  onChange={this.props.handleText}
+                  value={this.props.text}
+                  className="form-control"
+                />
+                <div className="input-group-append">
+                  <button className="btn btn-secondary">+</button>
+                </div>
+              </div>
+            </div>
+            <div className="col-4"> {this.innerRender()} </div>
+          </div>
+        </form>
+      </div>
     );
   }
 }
@@ -570,24 +433,20 @@ class AnswersOpen extends AnswersClosed {
   }
 
   innerRender() {
-    return ( <
-      div className = "form-check" >
-      <
-      input className = "form-check-input"
-      type = "checkbox"
-      checked = {
-        this.props.chk
-      }
-      defaultValue = {
-        true
-      }
-      disabled id = "defaultCheck1" / >
-      <
-      label className = "form-check-label"
-      htmlFor = "defaultCheck1" >
-      Poprawna odpowiedź <
-      /label> <
-      /div>
+    return (
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          checked={this.props.chk}
+          defaultValue={true}
+          disabled
+          id="defaultCheck1"
+        />
+        <label className="form-check-label" htmlFor="defaultCheck1">
+          Poprawna odpowiedź
+        </label>
+      </div>
     );
   }
 }
@@ -596,8 +455,8 @@ class AnswersMatch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      textA: '',
-      textB: ''
+      textA: "",
+      textB: "",
     };
     this.handleTextA = this.handleTextA.bind(this);
     this.handleTextB = this.handleTextB.bind(this);
@@ -609,7 +468,7 @@ class AnswersMatch extends React.Component {
     var textB = this.state.textB;
     this.setState({
       textA: textA,
-      textB: textB
+      textB: textB,
     });
     var text = textA + ";" + textB;
     e.target.value = text;
@@ -621,7 +480,7 @@ class AnswersMatch extends React.Component {
     var textB = e.target.value;
     this.setState({
       textA: textA,
-      textB: textB
+      textB: textB,
     });
     var text = textA + ";" + textB;
     e.target.value = text;
@@ -630,90 +489,63 @@ class AnswersMatch extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     if (this.state.textA.length === 0 || this.state.textB.length === 0) {
       return;
     }
 
     this.pair1.focus();
     this.setState({
-      textA: '',
-      textB: ''
+      textA: "",
+      textB: "",
     });
     this.props.handleSubmit(e);
   }
 
   render() {
-    return ( <
-      div >
-      <
-      form onSubmit = {
-        this.handleSubmit
-      } >
-      <
-      div className = 'row' >
-      <
-      div className = "col-8" >
-      <
-      div className = "input-group mb-3" >
-      <
-      input id = "pair1"
-      onChange = {
-        this.handleTextA
-      }
-      value = {
-        this.state.textA
-      }
-      className = "form-control"
-      ref = {
-        (input) => {
-          this.pair1 = input;
-        }
-      }
-      /> <
-      input id = "pair2"
-      onChange = {
-        this.handleTextB
-      }
-      value = {
-        this.state.textB
-      }
-      className = "form-control" /
-      >
-      <
-      div className = "input-group-append" >
-      <
-      button className = "btn btn-secondary" >
-      +
-      <
-      /button> <
-      /div> <
-      /div> <
-      /div> <
-      /div> <
-      /form> <
-      /div>
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="row">
+            <div className="col-8">
+              <div className="input-group mb-3">
+                <input
+                  id="pair1"
+                  onChange={this.handleTextA}
+                  value={this.state.textA}
+                  className="form-control"
+                  ref={(input) => {
+                    this.pair1 = input;
+                  }}
+                />
+                <input
+                  id="pair2"
+                  onChange={this.handleTextB}
+                  value={this.state.textB}
+                  className="form-control"
+                />
+                <div className="input-group-append">
+                  <button className="btn btn-secondary">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     );
   }
 }
 
 class AnswersList extends React.Component {
   render() {
-    return ( <
-      ol type = 'a' > {
-        this.props.items.map(item => ( <
-          li key = {
-            item.id
-          }
-          className = {
-            item.valid ? "font-weight-bold" : null
-          } > {
-            item.text
-          } <
-          /li>
-        ))
-      } <
-      /ol>
+    return (
+      <ol type="a">
+        {this.props.items.map((item) => (
+          <li key={item.id} className={item.valid ? "font-weight-bold" : null}>
+            {item.text}
+          </li>
+        ))}
+      </ol>
     );
   }
 }
