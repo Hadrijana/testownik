@@ -60,10 +60,10 @@ class NewTest extends React.Component {
 
   render() {
     return (
-      <div class='container-fluid'>
-        <div class='row'>
-          <div class='col'>
-            <h1 class='text-center my-4'>
+      <div className='container-fluid'>
+        <div className='row'>
+          <div className='col'>
+            <h1 className='text-center my-4'>
               Nowy Test
             </h1>
           </div>
