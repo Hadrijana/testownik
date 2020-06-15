@@ -4,6 +4,12 @@ import AnswerDnD from '../AnswerDnD/AnswerDnD.js';
 import { DndContext, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import './QuestionDnD.css'
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Button from 'react-bootstrap/Button'
+import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
 
 
@@ -90,17 +96,34 @@ class QuestionDnD extends React.Component{
 
     render(){
         return(
-            <div className="questionDnd">
-                <DndProvider backend={HTML5Backend} >
-                    <form onSubmit={this.handleSubmit}>
-                        {this.createAnswers()}
+            <Container>
+                <Row className="justify-content-md-center">
+                <Card style={{ width: '40rem', margin: '1rem' }}>
+                    <Card.Header>
+                        <h2>{this.props.question.q}</h2>
+                    </Card.Header>
 
-                        {this.createQuestions()}
-                        
-                        <button type="submit" > Save </button>
-                    </form>
-                </DndProvider>
-            </div>
+                    <DndProvider backend={HTML5Backend} >
+                        <ListGroup className="text-center">
+
+                            <ListGroupItem>
+                                 {this.createAnswers()}
+                            </ListGroupItem>
+                            <ListGroupItem>
+                                 {this.createQuestions()}
+                            </ListGroupItem>                                
+                            <div className="text-center"> 
+                                <Button  type="submit"  onClick={this.handleSubmit} style={{margin: '10px'}} > Save </Button>
+                            </div> 
+                        </ListGroup>
+                        </DndProvider>
+                    
+                   
+
+                  
+                </Card>
+                </Row>
+            </Container>
         )            
     }
 }

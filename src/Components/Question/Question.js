@@ -1,5 +1,12 @@
 import React from 'react';
-import Answer from '../Answer/Answer'
+import Answer from '../Answer/Answer';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Button from 'react-bootstrap/Button'
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
+
 
 
 class Question extends React.Component{
@@ -85,19 +92,28 @@ class Question extends React.Component{
 
     render(){
         return(
-            <div>
-                <div className="question-q">
-                    <h2>{this.props.question.q}</h2>
-                </div>
+            <Container>
+                <Row className="justify-content-md-center">
+                    <Card  style={{ width: '40rem', margin: '1rem' }}>
+                        <Card.Header className="question-q">
+                            <h2>{this.props.question.q}</h2>
+                        </Card.Header>
+                        
+                        <ListGroup>
+                            
+                            {this.createCheckboxes()}
+                            
+                            <div className="text-center"> 
+                                <Button  type="submit"  onClick={this.handleSubmit} style={{margin: '10px'}} > Save </Button>
+                            </div>
 
-                <form onSubmit={this.handleSubmit}>
-                    {this.createCheckboxes()}
-                    
-                    <button type="submit" > Save </button>
-                </form>
-                
-                
-            </div>
+
+                        </ListGroup>
+                        
+                    </Card>
+                </Row>
+                <br/>
+            </Container>
         )            
     }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd'
 //import { ItemTypes } from './ItemTypes'
 import './AnswerDnD.css'
+import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
  const ItemTypes = {
     ANSWER: 'answer',
@@ -16,7 +17,7 @@ const AnswerDnD = ({label}) => {
         }),
       })
       return(
-        
+
         <div
           className="draggable"
           ref={drag}
@@ -26,6 +27,7 @@ const AnswerDnD = ({label}) => {
         >
           {label}
         </div>
+
       )
 };
 export default AnswerDnD
