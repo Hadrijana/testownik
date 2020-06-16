@@ -1,6 +1,8 @@
 "use strict";
 
 import React, { Component } from "react";
+import {Link} from 'react-router-dom';
+import HomeIcon from '@material-ui/icons/Home';
 
 class NewTestService {
   constructor() {
@@ -20,6 +22,7 @@ class NewTestService {
         if (!response.ok) {
           this.handleResponseError(response);
         }
+        this.handleRespons200OK();
         return response.json();
       })
       .catch((error) => {
@@ -28,11 +31,18 @@ class NewTestService {
   }
 
   handleResponseError(response) {
+    window.alert("Niestety coś poszło nie tak.");
     throw new Error("HTTP error, status = " + response.status);
   }
+
   handleError(error) {
     console.log(error);
     console.log(error.message);
+  }
+
+  handleRespons200OK() {
+    window.alert("Test Dodany!");
+    window.location.reload(false);
   }
 }
 
@@ -41,10 +51,16 @@ class NewTest extends React.Component {
     super(props);
     this.newTestService = new NewTestService();
     this.state = {
-      questions: [],
+      testName: "",
+      availability: 0,
+      description: "",
+      questions: []
     };
     this.handleNewQuestion = this.handleNewQuestion.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeAvailability = this.handleChangeAvailability.bind(this);
+    this.handleChangeDescription = this.handleChangeDescription.bind(this);
   }
 
   handleNewQuestion(newQuestion) {
@@ -55,17 +71,74 @@ class NewTest extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.newTestService.createNewTest(this.state.questions);
+    if (this.state.testName.length === 0) {
+      return;
+    }
+    this.newTestService.createNewTest(this.state);
+  }
+
+  handleChangeName(e) {
+    this.setState({
+      testName: e.target.value,
+    });
+  }
+
+  handleChangeAvailability(e) {
+    this.setState({
+      availability: e.target.value,
+    });
+  }
+
+  handleChangeDescription(e) {
+    this.setState({
+      description: e.target.value,
+    });
   }
 
   render() {
     return (
       <div className='container-fluid'>
-        <div className='row'>
+        <div className='row headerRow'>
           <div className='col'>
-            <h1 className='text-center my-4'>
-              Nowy Test
-            </h1>
+            <div className='row'>
+              <div className='col-1'>
+                <Link to="/">
+                  <button className='btn btn-outline-dark'>
+                    <HomeIcon />
+                  </button>
+                </Link>
+              </div>
+              <div className='col-2 offset-4'>
+                <input
+                  className="form-control"
+                  value={this.state.testName}
+                  placeholder="Nowy Test"
+                  onChange={this.handleChangeName}
+                  >
+                </input>
+              </div>
+              <div className='col-2'>
+                <select
+                  className="form-control"
+                  value={this.state.availability}
+                  onChange={this.handleChangeAvailability}
+                >
+                  <option value='0'>Publiczny</option>
+                  <option value='1'>Prywatny</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className='col-10 offset-1 my-3'>
+            <h5>Opis testu: </h5>
+            <textarea
+              className="form-control"
+              value={this.state.description}
+              onChange={this.handleChangeDescription}
+              >
+            </textarea>
           </div>
         </div>
         <QuestionList list={this.state.questions} />
@@ -112,7 +185,7 @@ class Question extends React.Component {
     super(props);
     this.state = {
       id: 0,
-      questionType: 1,
+      questionType: 'c',
       weight: 1,
       questionText: "",
       answers: [],
@@ -144,9 +217,9 @@ class Question extends React.Component {
                   value={this.state.questionType}
                   onChange={this.handleChangeType}
                 >
-                  <option value="1"> Zamknięte </option>
-                  <option value="2"> Półotwarte </option>
-                  <option value="3"> Połączenie </option>
+                  <option value="c"> Zamknięte </option>
+                  <option value="w"> Półotwarte </option>
+                  <option value="m"> Połączenie </option>
                 </select>
               </div>
             </div>
@@ -178,7 +251,7 @@ class Question extends React.Component {
                 <h5 className="mt-3"> Odpowiedzi: </h5>
                 <AnswersList items={this.state.answers} />
                 {!(
-                  this.state.questionType == 2 && this.state.answers.length == 1
+                  this.state.questionType == 'w' && this.state.answers.length == 1
                 ) && (
                   <Answers
                     ref={this.answers}
@@ -257,7 +330,7 @@ class Question extends React.Component {
     this.props.addNewQuestion(newItem);
     this.setState({
       id: this.state.id + 1,
-      questionType: 1,
+      questionType: 'c',
       weight: 1,
       questionText: "",
       answers: [],
@@ -280,7 +353,7 @@ class AnswersType extends React.Component {
 
     return (
       <div>
-        {type == 1 && (
+        {type == 'c' && (
           <AnswersClosed
             text={text}
             chk={chk}
@@ -289,7 +362,7 @@ class AnswersType extends React.Component {
             handleCheckbox={handleCheckbox}
           />
         )}
-        {type == 2 && (
+        {type == 'w' && (
           <AnswersOpen
             text={text}
             chk={chk}
@@ -298,7 +371,7 @@ class AnswersType extends React.Component {
             handleCheckbox={handleCheckbox}
           />
         )}
-        {type == 3 && (
+        {type == 'm' && (
           <AnswersMatch
             text={text}
             handleSubmit={handleSubmit}

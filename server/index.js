@@ -26,26 +26,32 @@ const app = express();
 app.use(bodyParser.json());
 app.use(pino);
 
+function logError(err) {
+  console.log(err);
+}
+
 app.post('/api/newTest', (req, res) => {
-  const questions = req.body;
-  const testName = 'KM TEST'
-  console.log(questions);
+  const test = req.body;
+  const questions = test.questions;
+  const testName = test.testName;
+  const availability = test.availability;
+  const description = test.description;
 
   db.beginTransaction(function(err) {
     if (err) {
-      throw err;
+      logError(err);
     }
     // DODANIE TESTU
     let paramsTest = [
       testName,
-      'New test Krzychu',
-      0
+      description,
+      availability
     ];
     let sqlTest = 'CALL ADD_TEST(?, ?, ?)';
     db.query(sqlTest, paramsTest, (error, result) => {
       if (error) {
         return db.rollback(function() {
-          throw error;
+          logError(error);
         });
       }
       console.log('Test added');
@@ -59,7 +65,7 @@ app.post('/api/newTest', (req, res) => {
         db.query(sqlQuestion, paramsQuestion, (error, result) => {
           if (error) {
             return db.rollback(function() {
-              throw error;
+              logError(error);
             });
           }
           console.log('Question added');
@@ -73,7 +79,7 @@ app.post('/api/newTest', (req, res) => {
           db.query(sqlAnswer, paramsAnswer, (error, result) => {
             if (error) {
               return db.rollback(function() {
-                throw error;
+                logError(error);
               });
               return;
             }
@@ -86,10 +92,9 @@ app.post('/api/newTest', (req, res) => {
       db.commit(function(err) {
         if (err) {
           return db.rollback(function() {
-            throw err;
+            logError(error);
           });
         }
-        console.log(' WYKONANY COMIT???')
       });
 
       res.status(200).send({
