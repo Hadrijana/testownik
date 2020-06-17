@@ -29,7 +29,7 @@ const ToMatch = ({onDrop, label}) => {
               ref={drop} 
               className="drop"
               style={{
-                backgroundColor: isOver ? 'blue' : 'yellow'
+                backgroundColor: isOver ? 'grey' : 'blueviolet'
               }}
               >
                {value}

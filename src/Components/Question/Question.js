@@ -15,7 +15,7 @@ class Question extends React.Component{
         this.state ={
             answered: false,
             correct: props.question.correct,
-            
+            disabled: false,
             checkboxes: props.question.answers.reduce(
                 (answers, answer) => ({
                   ...answers,
@@ -72,11 +72,14 @@ class Question extends React.Component{
 
 
         if(isCorr){
+            this.props.addPoints(this.props.question.points)
             alert("Poprawna odpowiedź");
         }
         else{
+            this.props.addPointsNotAchived(this.props.question.points)
             alert("Zła odpowiedź");
         }
+        this.setState({disabled:true})
     };
     
     createCheckbox = answer => (
@@ -91,30 +94,34 @@ class Question extends React.Component{
     createCheckboxes = () => this.props.question.answers.map(this.createCheckbox);
 
     render(){
-        return(
-            <Container>
-                <Row className="justify-content-md-center">
-                    <Card  style={{ width: '40rem', margin: '1rem' }}>
-                        <Card.Header className="question-q">
-                            <h2>{this.props.question.q}</h2>
-                        </Card.Header>
-                        
-                        <ListGroup>
+        if(this.state.disabled){
+            return null;
+        }else{
+            return(
+                <Container>
+                    <Row className="justify-content-md-center">
+                        <Card  style={{ width: '40rem', margin: '1rem' }}>
+                            <Card.Header className="question-q">
+                                <h2>{this.props.question.q}</h2>
+                            </Card.Header>
                             
-                            {this.createCheckboxes()}
-                            
-                            <div className="text-center"> 
-                                <Button  type="submit"  onClick={this.handleSubmit} style={{margin: '10px'}} > Save </Button>
-                            </div>
+                            <ListGroup>
+                                
+                                {this.createCheckboxes()}
+                                
+                                <div className="text-center"> 
+                                    <Button  type="submit"  onClick={this.handleSubmit} style={{margin: '10px'}} > Save </Button>
+                                </div>
 
 
-                        </ListGroup>
-                        
-                    </Card>
-                </Row>
-                <br/>
-            </Container>
-        )            
+                            </ListGroup>
+                            
+                        </Card>
+                    </Row>
+                    <br/>
+                </Container>
+            )    
+        }        
     }
 }
 

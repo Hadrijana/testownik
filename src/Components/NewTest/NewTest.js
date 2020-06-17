@@ -2,11 +2,11 @@
 
 import React, { Component } from "react";
 import {Link} from 'react-router-dom';
-import HomeIcon from '@material-ui/icons/Home';
+//import HomeIcon from '@material-ui/icons/Home';
 
 class NewTestService {
   constructor() {
-    this.NEW_TEST_URL = "/api/newTest";
+    this.NEW_TEST_URL = 'http://localhost:4000/newTest';
   }
 
   async createNewTest(newTest) {
@@ -104,8 +104,8 @@ class NewTest extends React.Component {
               <div className='col-1'>
                 <Link to="/">
                   <button className='btn btn-outline-dark'>
-                    <HomeIcon />
-                  </button>
+                    {//<HomeIcon />  
+                  }Home</button>
                 </Link>
               </div>
               <div className='col-2 offset-4'>
@@ -631,3 +631,4 @@ class AnswersList extends React.Component {
 }
 
 export default NewTest;
+

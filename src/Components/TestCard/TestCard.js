@@ -1,6 +1,8 @@
 import React from 'react';
 import './TestCard.css';
 import {Link} from 'react-router-dom';
+import Container from 'react-bootstrap/Container'
+import Card from 'react-bootstrap/Card';
 
 
 class TestCard extends React.Component{
@@ -8,21 +10,14 @@ class TestCard extends React.Component{
         return (
             <div className="TestCard">
                 <Link  to={`/test`}  style={{ textDecoration: 'none', color: 'inherit' }} onClick = {() => this.props.testFromCode(this.props.testCard.code)} >
-                    <div className="image-container">
-                        <img src={this.props.testCard.imageSrc} alt=''/>
-                    </div>
-
+                <Card>
+                    <Card.Header>
                     <h2>{this.props.testCard.name}</h2>
-
+                    </Card.Header>
+                    <Card.Body>
                     <div className="TestCard-information">
                         <div className="TestCard-code">
                             <p>{this.props.testCard.code}</p>
-                        </div>
-                        
-                        <div className="TestCard-reviews">
-                            
-                            <h3 className="rating">{`${this.props.testCard.rating} stars`}</h3>
-                            <p>{`${this.props.testCard.reviewCount} reviews`}</p>
                         </div>
                         
                     </div>
@@ -30,6 +25,8 @@ class TestCard extends React.Component{
                     <div className="TestCard-description">
                         <p>{this.props.testCard.description}</p>
                     </div>
+                    </Card.Body>
+                </Card>
                 </Link>
             </div>
         )

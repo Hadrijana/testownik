@@ -7,57 +7,67 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
+  Link, 
   Redirect
 } from "react-router-dom";
-
+  
   let testCard1 = {
-    imageSrc: 'https://s3.amazonaws.com/codecademy-content/programs/react/ravenous/pizza.jpg',
-    name: 'Kuchnia włoska',
-    code: '1',
-    description: 'Tu bedzie opis testu, jakkolwiek ma on wyglądać. Coś się tu jeszcze ładnego napisze i będzie fajnie',
-    rating: 4.5,
-    reviewCount: 90
-  }
-  let testCard2 = {
-    imageSrc: 'https://s3.amazonaws.com/codecademy-content/programs/react/ravenous/pizza.jpg',
-    name: 'Kuchnia włoska',
-    code: '0',
-    description: 'Tu bedzie opis testu, jakkolwiek ma on wyglądać. Coś się tu jeszcze ładnego napisze i będzie fajnie',
-    rating: 4.5,
-    reviewCount: 90
+    name: 'Test41',
+    code: '219',
+    description: 'Tu bedzie opis testu',
+
   }
 
+  let testCard2 = {
+    name: 'Test b',
+    code: '100',
+    description: 'Tu bedzie opis testu',
+
+  }
+  let testCard3 = {
+    name: 'Test1',
+    code: '112',
+    description: 'Tu bedzie opis testu',
+
+  }
+  let testCard4 = {
+    name: 'Test3',
+    code: '229',
+    description: 'Tu bedzie opis testu',
+
+  }
+  
   let testCards =[
     testCard1,
     testCard2,
-    testCard1,
-    testCard2,
-    testCard1,
-    testCard2,
-  ]
+    testCard4,
+    testCard3,
 
+  ]
+  
 
 class MainPage extends  React.Component {
 
   constructor(props){
     super(props);
-    this.state ={redirect:false, testCode: null};
+    this.state ={redirect:false, testCode: null, token:null};
     this.startWithCode= this.startWithCode.bind(this)
   };
 
+   
 
-
-    startWithCode(code){
+    startWithCode =  async (code) => {
       //console.log(code);
-      this.setState({testCode: code, redirect: true})
-      this.props.testFromCode(code);
+      const redirect = await this.props.testFromCode(code);
+      window.setTimeout(() => {
+        this.setState({testCode: code, redirect: redirect});
+      }, 1000)
     }
-
+    
       searchWithTerm(phrase, sortBy){
         console.log(`Searching witch phrase ${phrase}, ${sortBy}`);
       }
-
+    
       render(){
 
         if (this.state.redirect) {
@@ -65,11 +75,11 @@ class MainPage extends  React.Component {
         }
         return (
           <div className="App">
-            <h1>Testownik</h1>
+            <h1>testownik</h1>
             <SearchBar startWithCode={this.startWithCode} searchWithTerm={this.searchWithTerm} />
             <BusinessList testCards ={testCards} testFromCode = {this.props.testFromCode}/>
           </div>
-
+          
         );
       }
 

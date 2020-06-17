@@ -1,5 +1,5 @@
 import React from 'react';
-import ToMatch from '../ToMatch/ToMatch.js';
+import  ToMatch from '../ToMatch/ToMatch.js';
 import AnswerDnD from '../AnswerDnD/AnswerDnD.js';
 import { DndContext, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -17,9 +17,9 @@ class QuestionDnD extends React.Component{
     constructor(props){
         super(props);
         this.state ={
+            disabled:false,
             answered: false,
-            correct: props.question.correct,
-            toMatch: props.question.toMatch.reduce(
+            toMatch: props.question.answers.reduce(
                 (toMatchs, toMatch) => ({
                   ...toMatchs,
                   [toMatch]: false
@@ -27,7 +27,7 @@ class QuestionDnD extends React.Component{
                 {}
             ),
 
-            matchIt: props.question.answers.reduce(
+            matchIt: props.question.correct.reduce(
                 (answers, answer) => ({
                   ...answers,
                   [answer]: false
@@ -44,7 +44,7 @@ class QuestionDnD extends React.Component{
 
     
     
-    handleDrag = changeEvent => {
+    handleDrop = changeEvent => {
         const { name } = changeEvent.target;
         
         this.setState(prevState => ({
@@ -59,26 +59,30 @@ class QuestionDnD extends React.Component{
     handleSubmit = event =>{
         event.preventDefault();
         let isCorr;
-        if( document.getElementById("4").value === this.state.correct){
+       /* if( document.getElementById("4").value === this.state.correct){
             isCorr = true
         }
         else{
              isCorr = false
-        }
-
+        }*/
+        isCorr = true;
         if(isCorr){
+            this.props.addPoints(this.props.question.points)
             alert("Poprawna odpowiedź");
+
         }
         else{
             alert("Zła odpowiedź");
             console.log(this.state.toMatch)
         }
+        this.setState({disabled:true});
     };
     
     createQuestion = answer => (
+
         <ToMatch
             label={answer}
-    
+            handleDrop={this.handleDrop}
         />
     );
     
@@ -90,41 +94,46 @@ class QuestionDnD extends React.Component{
 
     );
     
-    createQuestions = () => this.props.question.toMatch.map(this.createQuestion);
-    createAnswers = () => this.props.question.answers.map(this.createAnswer);
+    createQuestions = () => this.props.question.answers.map(this.createQuestion);
+    createAnswers = () => this.props.question.correct.map(this.createAnswer);
 
 
     render(){
-        return(
-            <Container>
-                <Row className="justify-content-md-center">
-                <Card style={{ width: '40rem', margin: '1rem' }}>
-                    <Card.Header>
-                        <h2>{this.props.question.q}</h2>
-                    </Card.Header>
-
-                    <DndProvider backend={HTML5Backend} >
-                        <ListGroup className="text-center">
-
-                            <ListGroupItem>
-                                 {this.createAnswers()}
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                 {this.createQuestions()}
-                            </ListGroupItem>                                
-                            <div className="text-center"> 
-                                <Button  type="submit"  onClick={this.handleSubmit} style={{margin: '10px'}} > Save </Button>
-                            </div> 
-                        </ListGroup>
+        if(this.state.disabled){
+            return null;
+        }else{
+            return(
+                <Container>
+                    <Row className="justify-content-md-center">
+                    <Card style={{ width: '40rem', margin: '1rem' }}>
+                        <Card.Header>
+                            <h2>{this.props.question.q}</h2>
+                        </Card.Header>
+    
+                        <DndProvider backend={HTML5Backend} >
+                            <ListGroup className="text-center">
+    
+                                <ListGroupItem>
+                                     {this.createAnswers()}
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                     {this.createQuestions()}
+                                </ListGroupItem>                                
+                                <div className="text-center"> 
+                                    <Button  type="submit"  onClick={this.handleSubmit} style={{margin: '10px'}} > Save </Button>
+                                </div> 
+                            </ListGroup>
                         </DndProvider>
-                    
-                   
-
-                  
-                </Card>
-                </Row>
-            </Container>
-        )            
+                        
+                       
+    
+                      
+                    </Card>
+                    </Row>
+                </Container>
+            )  
+        }
+                 
     }
 }
 

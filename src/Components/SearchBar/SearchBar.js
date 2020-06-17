@@ -52,8 +52,9 @@ class SearchBar extends React.Component{
     }
 
     handleStartCode(e){
-      this.props.startWithCode(this.state.code);
       e.preventDefault();
+      this.props.startWithCode(this.state.code);
+      
     }
 
     handleSearchTerm(e){

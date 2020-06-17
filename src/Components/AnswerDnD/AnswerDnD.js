@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDrag } from 'react-dnd'
+import { useDrag, DragSource } from 'react-dnd'
 //import { ItemTypes } from './ItemTypes'
 import './AnswerDnD.css'
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
@@ -9,9 +9,10 @@ import ListGroupItem from 'react-bootstrap/ListGroupItem';
   }
 
 
-const AnswerDnD = ({label}) => {
+const AnswerDnD = props => {
+
     const [{ isDragging }, drag, ] = useDrag({
-        item: { type: ItemTypes.ANSWER },
+        item: { type: ItemTypes.ANSWER, name: props.label},
         collect: (monitor) => ({
           isDragging: !!monitor.isDragging(),
         }),
@@ -25,7 +26,7 @@ const AnswerDnD = ({label}) => {
             opacity: isDragging ? 0.9 : 1,
           }}
         >
-          {label}
+          {props.label}
         </div>
 
       )

@@ -1,0 +1,62 @@
+ testFromCode(code){
+    let tmpTest = []
+    fetch(`http://localhost:4000/testid/${code}`)
+      .then(response => response.json())
+      .then(response => {
+          let test_id =  response.data[0]['test_id']
+          console.log(`id testu o kodzie ${code} to ${test_id}`)
+
+          fetch(`http://localhost:4000/questions/${test_id}`)
+            .then(response => response.json())
+            .then(response => {
+                let questions =  response.data
+                console.log(questions)
+                let qid = null;
+                questions.map((question)=>{
+                  
+                qid = question['QID']
+                let tmpQuestion ={
+                  type:null,
+                  q: null,
+                  answers: [],
+                  correct: [],
+                  points: null
+                
+                };
+                fetch(`http://localhost:4000/answers/${qid}`)
+                  .then(response => response.json())
+                  .then(response => {
+                      let answers_db =  response.data
+                      let answers = []
+                      console.log(answers_db)
+                      answers_db.map((answer)=>{
+                        answers.push(answer['ANSWER'])
+                        if(answer['IS_CORRECT'==1]){
+                          tmpQuestion.correct.push(answer['ANSWER'])
+                        }
+                      })
+                      console.log(`odpowiedzi: ${answers}`)
+                      tmpQuestion.answers = answers;
+          
+                })
+                  .catch(err => console.error(err))
+                  
+                  console.log(tmpQuestion)
+                  tmpTest.push(tmpQuestion);
+                
+
+
+
+                })
+    
+          })
+            .catch(err => console.error(err))
+
+
+
+          test = tests[0];
+    })
+      .catch(err => console.error(err))
+      
+      
+  }
