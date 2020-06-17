@@ -185,7 +185,7 @@ class Question extends React.Component {
     super(props);
     this.state = {
       id: 0,
-      questionType: 'c',
+      questionType: 'C',
       weight: 1,
       questionText: "",
       answers: [],
@@ -217,9 +217,9 @@ class Question extends React.Component {
                   value={this.state.questionType}
                   onChange={this.handleChangeType}
                 >
-                  <option value="c"> Zamknięte </option>
-                  <option value="w"> Półotwarte </option>
-                  <option value="m"> Połączenie </option>
+                  <option value="C"> Zamknięte </option>
+                  <option value="W"> Półotwarte </option>
+                  <option value="M"> Połączenie </option>
                 </select>
               </div>
             </div>
@@ -251,7 +251,7 @@ class Question extends React.Component {
                 <h5 className="mt-3"> Odpowiedzi: </h5>
                 <AnswersList items={this.state.answers} />
                 {!(
-                  this.state.questionType == 'w' && this.state.answers.length == 1
+                  this.state.questionType == 'W' && this.state.answers.length == 1
                 ) && (
                   <Answers
                     ref={this.answers}
@@ -330,7 +330,7 @@ class Question extends React.Component {
     this.props.addNewQuestion(newItem);
     this.setState({
       id: this.state.id + 1,
-      questionType: 'c',
+      questionType: 'C',
       weight: 1,
       questionText: "",
       answers: [],
@@ -353,7 +353,7 @@ class AnswersType extends React.Component {
 
     return (
       <div>
-        {type == 'c' && (
+        {type == 'C' && (
           <AnswersClosed
             text={text}
             chk={chk}
@@ -362,7 +362,7 @@ class AnswersType extends React.Component {
             handleCheckbox={handleCheckbox}
           />
         )}
-        {type == 'w' && (
+        {type == 'W' && (
           <AnswersOpen
             text={text}
             chk={chk}
@@ -371,7 +371,7 @@ class AnswersType extends React.Component {
             handleCheckbox={handleCheckbox}
           />
         )}
-        {type == 'm' && (
+        {type == 'M' && (
           <AnswersMatch
             text={text}
             handleSubmit={handleSubmit}
